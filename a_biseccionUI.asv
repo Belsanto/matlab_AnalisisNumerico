@@ -1,18 +1,16 @@
-% createUI
 % Función principal para crear la interfaz de usuario (UI)
-% calculateRoot:
+%calculateRoot:
 %Se obtienen los valores ingresados por el usuario en los campos de entrada.
 %Se convierte la cadena de texto de la ecuación en una función anónima manejable utilizando str2func.
 %Se llama a la función raices_biseccion para calcular la raíz de la ecuación utilizando el método de bisección.
 %Se muestra el resultado de la raíz en la etiqueta de resultado.
-% raices_biseccion:
+%raices_biseccion:
 %Esta función implementa el método de bisección para encontrar la raíz de la ecuación dentro del intervalo 
 % definido por lim_izquierda y lim_derecha con una precisión determinada por tolerancia.
 %Se itera hasta que la aproximación de la raíz es suficientemente precisa o se encuentra la raíz exacta.
 %Durante cada iteración, se actualizan los límites del intervalo basándose en los valores de la 
 % función en los límites y en el punto medio calculado.
 %Se devuelve la aproximación final como la raíz encontrada.
-
 function createUI()
     % Crear la figura de la interfaz con un título y tamaño especificado
     fig = uifigure('Name', 'Calculadora de Raíces - Método de Bisección', 'Position', [100 100 400 300]);

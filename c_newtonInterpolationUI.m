@@ -1,5 +1,22 @@
+%createUI:
+% Función principal para crear la interfaz de usuario (UI)
+% calculateInterpolation:
+%Se obtienen los valores ingresados por el usuario en los campos de entrada.
+%Se convierte la cadena de texto de los vectores de coordenadas en X y Y a 
+%arreglos numéricos utilizando str2num.
+%Se verifica que los vectores X y Y tengan la misma longitud.
+%Se llama a la función NewtonInt para calcular la interpolación de Newton.
+%Se muestra el resultado de la interpolación y se actualiza la tabla con los valores interpolados y errores.
+% NewtonInt:
+%Esta función implementa el método de interpolación de Newton.
+%Se construye la matriz de diferencias divididas finitas (ddf).
+%Se calcula el polinomio de interpolación de Newton y se evalúa en el punto X.
+%Se construye una representación en cadena del polinomio de Newton.
+%Se crea un resumen en una tabla con los valores interpolados y errores.
+%Se grafica el polinomio de interpolación, los puntos originales y el punto evaluado.
+
 function createUI()
-    % Crear la figura de la interfaz
+    % Crear la figura de la interfaz con un título y tamaño especificado
     fig = uifigure('Name', 'Interpolación de Newton', 'Position', [100 100 600 500]);
     
     % Etiqueta y campo de entrada para el vector de coordenadas en x
@@ -27,12 +44,13 @@ function createUI()
     % Tabla para mostrar los valores interpolados y errores
     uit = uitable(fig, 'Position', [20 20 560 180]);
     
-    % Función que se ejecuta al presionar el botón
+    % Definir la función que se ejecuta al presionar el botón de cálculo
     btnCalculate.ButtonPushedFcn = @(btn, event) calculateInterpolation(txtX, txtY, txtN, txtXEval, lblResult, uit);
 end
 
+% Función para calcular la interpolación utilizando el método de Newton
 function calculateInterpolation(txtX, txtY, txtN, txtXEval, lblResult, uit)
-    % Obtener los valores de los campos de entrada
+    % Obtener los valores ingresados por el usuario en los campos de entrada
     X = str2num(txtX.Value); %#ok<ST2NM>
     Y = str2num(txtY.Value); %#ok<ST2NM>
     n = txtN.Value;
@@ -42,7 +60,7 @@ function calculateInterpolation(txtX, txtY, txtN, txtXEval, lblResult, uit)
     if length(X) ~= length(Y)
         lblResult.Text = 'Los vectores x e y deben tener la misma longitud.';
     else
-        % Llamar a la función NewtonInt
+        % Llamar a la función NewtonInt para calcular la interpolación
         [Yval, NewtonPol, M] = NewtonInt(X, Y, n, XEval);
         
         % Mostrar el resultado y la tabla
@@ -52,6 +70,7 @@ function calculateInterpolation(txtX, txtY, txtN, txtXEval, lblResult, uit)
     end
 end
 
+% Función para calcular la interpolación de Newton
 function [Y, NewtonPol, M] = NewtonInt(x, y, n, X)
     % Construir la matriz de diferencias divididas finitas
     ddf = zeros(length(x), length(y)); 
@@ -63,12 +82,14 @@ function [Y, NewtonPol, M] = NewtonInt(x, y, n, X)
     end
 
     % Interpolación de Newton
-    xterm = 1; yint = ddf(1,1); yacum = yint;
+    xterm = 1; 
+    yint = ddf(1,1); 
+    yacum = yint;
     for i = 2:n+1
-        xterm = xterm*(X-x(i-1));
-        yint(i) = ddf(1,i)*xterm; %#ok<AGROW>
-        yacum(i) = yacum(i-1) + yint(i); %#ok<AGROW>
-        ea(i) = yacum(i) - yacum(i-1); %#ok<AGROW>
+        xterm = xterm * (X - x(i-1));
+        yint(i) = ddf(1,i) * xterm;
+        yacum(i) = yacum(i-1) + yint(i);
+        ea(i) = yacum(i) - yacum(i-1);
     end
     Y = sum(yint);
 
@@ -91,7 +112,7 @@ function [Y, NewtonPol, M] = NewtonInt(x, y, n, X)
     % Resumen en una tabla
     vn = 0:n;
     Encabezado = {'Grado', 'P(x)', 'Error'};
-    Datos = num2cell([(vn)', yacum', [0 ea(2:end)]']);
+    Datos = num2cell([vn', yacum', [0 ea(2:end)]']);
     M = [Encabezado; Datos];
 
     % Gráfica
@@ -100,7 +121,7 @@ function [Y, NewtonPol, M] = NewtonInt(x, y, n, X)
     fplot(fs, [min(x)-1, max(x)+1], 'k-', 'LineWidth', 2); % Grafica la función de color negro y grosor 2
     title(['P(x) = ', NewtonPol]); 
     hold on;
-    scatter(x, y, 'LineWidth', 2, 'MarkerEdgeColor', 'b'); % Gráfica los puntos originales
-    plot(X, Y, 'ro', 'MarkerFaceColor', 'r'); % Gráfica el punto evaluado
+    scatter(x, y, 'LineWidth', 2, 'MarkerEdgeColor', 'b'); % Graficar los puntos originales
+    plot(X, Y, 'ro', 'MarkerFaceColor', 'r'); % Graficar el punto evaluado
     grid on;
 end

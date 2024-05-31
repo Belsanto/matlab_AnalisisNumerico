@@ -1,3 +1,29 @@
+%createUI:
+% Función principal para crear la interfaz de usuario (UI)
+% calculateCurveFit:
+%Obtiene los valores ingresados por el usuario en los campos de entrada.
+%Convierte las cadenas de texto de los valores de X y Y en vectores numéricos utilizando str2num.
+%Verifica que la cantidad de valores en X y Y coincidan con n.
+%Calcula las sumatorias necesarias para el ajuste de curva cuadrática.
+%Construye los vectores y matrices necesarios para resolver el sistema 
+% de ecuaciones mediante determinantes.
+%Calcula los coeficientes a, b y c de la ecuación cuadrática utilizando los determinantes.
+%Crea un vector X para el trazado y evalúa la ecuación cuadrática en este vector.
+%%Grafica los datos originales y la curva ajustada.
+%Muestra la ecuación del ajuste cuadrático en la etiqueta de resultado.
+%Calcula y muestra el error cuadrático medio (MSE).
+% ecuaciones_gauss_seidel:
+%Implementa el método iterativo de Gauss-Seidel para resolver sistemas de ecuaciones lineales.
+%Inicializa las variables necesarias para el cálculo, incluyendo la solución 
+% inicial y el contador de iteraciones.
+%Realiza iteraciones hasta que la solución converge dentro de la 
+% tolerancia especificada o se alcanza el límite de iteraciones.
+%En cada iteración, actualiza la solución para cada variable 
+% utilizando la fórmula de Gauss-Seidel.
+%Verifica si la solución ha convergido comparando la norma 
+% de la diferencia entre la solución actual y la solución anterior con la tolerancia.
+%Devuelve la solución final.
+
 function createUI()
     % Crear la figura de la interfaz
     fig = uifigure('Name', 'Ajuste de Curva Cuadrática', 'Position', [100 100 500 400]);
